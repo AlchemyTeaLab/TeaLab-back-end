@@ -3,6 +3,7 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS recipes CASCADE;
 DROP TABLE IF EXISTS ingredients CASCADE;
+DROP TABLE IF EXISTS ingredients_recipes CASCADE;
 
 CREATE TABLE users (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -36,18 +37,10 @@ CREATE TABLE ingredients_recipes (
   recipe_id BIGINT REFERENCES recipes (id)
 );
 
-
 INSERT INTO
   users(email, password_hash, username)
 VALUES
   ('test@email.com', 'secretPassword', 'test_username');
-
-INSERT INTO
-  recipes(name, user_id, notes)
-VALUES
-  ('Jasmine Green Tea', '1', 'My go-to stress-reliever'),
-  ('Iced Lemon Tea', '1', 'Summer Favorite');
-
 
 INSERT INTO 
   ingredients(common_name, scientific_name, type, health_benefits, description)
@@ -73,6 +66,11 @@ VALUES
 ('Antioxidant', '', 'Boost', '{"Support heart health", "Reduce the risk of cancer"}', 'Antioxidants are mostly found in plant foods. They are natural molecules that help neutralize harmful free radicals in our bodies.'),
 ('Probiotic', '', 'Boost', '{"Prevent or treat diarrhea", "Improve irritable bowel movement", "Boost immune system", "Reduce allergies and inflammation"}', 'Probiotics are foods or supplements that contain live microorganisms intended to maintain or improve the "good" bacteria in the body.');
 
+INSERT INTO
+  recipes(name, user_id, notes)
+VALUES
+  ('Jasmine Green Tea', '1', 'My go-to stress-reliever'),
+  ('Iced Lemon Tea', '1', 'Summer Favorite');
 
 INSERT INTO
   ingredients_recipes(ingredient_id, recipe_id)
