@@ -36,18 +36,27 @@ CREATE TABLE ingredients_recipes (
   recipe_id BIGINT REFERENCES recipes (id)
 );
 
+
 INSERT INTO
   users(email, password_hash, username)
 VALUES
   ('test@email.com', 'secretPassword', 'test_username');
 
+INSERT INTO
+  recipes(name, user_id, notes)
+VALUES
+  ('Jasmine Green Tea', '1', 'My go-to stress-reliever'),
+  ('Iced Lemon Tea', '1', 'Summer Favorite')
 
 INSERT INTO
   ingredients_recipes(ingredient_id, recipe_id)
 VALUES
-  (1, 1),
-  (2, 1),
-  (4, 2);
+  (3, 1),
+  (15, 1),
+  (20, 1),
+  (2, 2),
+  (6, 2),
+  (12, 2);
 
 INSERT INTO 
   ingredients(common_name, scientific_name, type, health_benefits, description)
