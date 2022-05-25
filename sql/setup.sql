@@ -30,3 +30,8 @@ CREATE TABLE ingredients (
   description TEXT
 )
 
+INSERT INTO 
+  ingredients (common_name, scientific_name, type, health_benefits, description)
+
+VALUES
+('Oolong Tea', 'Camellia sinensis', 'Base', '{"Reduce stress and anxiety", "Improve brain activity", "Support heart health"}', 'Oolong tea is a traditional Chinese tea made from the semi-oxidized leaves of the Camellia sinensis plant. It is picked later in the season than green tea. A cup of brewed oolong tea contains small amounts of calcium, magnesium, and potassium. It also contains about 38 mg of caffeine. Rich in amino acid, Oolong tea improves relaxation and cognitive performance.'),
