@@ -11,4 +11,8 @@ describe('TeaLab-back-end routes', () => {
   afterAll(() => {
     pool.end();
   });
+
+  it.skip('is a test placeholder', () => {
+
+  });
 });
