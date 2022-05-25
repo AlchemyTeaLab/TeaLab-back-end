@@ -12,9 +12,9 @@ jobs:
           POSTGRES_USER: alchemy
           POSTGRES_PASSWORD: alchemy
     steps:
-    - uses: actions/checkout@v2
-    - run: npm ci
-    - run: npm test
-      env:
-        CI: true
-        DATABASE_URL: postgres://alchemy:alchemy@postgres:5432/alchemy
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm test
+        env:
+          CI: true
+          DATABASE_URL: postgres://alchemy:alchemy@postgres:5432/alchemy
