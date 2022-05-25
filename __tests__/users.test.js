@@ -12,19 +12,19 @@ describe('TeaLab-back-end routes', () => {
     pool.end();
   });
 
-  it.skip('should sign up user with POST', async () => {
+  it('should sign up user with POST', async () => {
     const res = await request(app)
-      .post('api/v1/users')
+      .post('/api/v1/users')
       .send({
         username: 'test_username',
         email: 'test@email.com',
-        password: 'secretPassword'
+        password: 'secretPassword',
       });
 
     expect(res.body).toEqual({
       id: expect.any(String),
       username: 'test_username',
-      email: 'test@email.com'
+      email: 'test@email.com',
     });
   });
 });
