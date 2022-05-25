@@ -21,11 +21,6 @@ CREATE TABLE ingredients (
   description TEXT
 );
 
--- junction table for these ingredients_recipes
-CREATE TABLE ingredients_recipes (
-  ingredient_id BIGINT REFERENCES ingredients (id),
-  recipe_id BIGINT REFERENCES recipes (id)
-)
 
 CREATE TABLE recipes (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -34,6 +29,18 @@ CREATE TABLE recipes (
   notes TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- junction table for these ingredients_recipes
+CREATE TABLE ingredients_recipes (
+  ingredient_id BIGINT REFERENCES ingredients (id),
+  recipe_id BIGINT REFERENCES recipes (id)
+);
+
+INSERT INTO
+  users(email, password_hash, username)
+VALUES
+  ('test@email.com', 'secretPassword', 'test_username');
+
 
 INSERT INTO
   ingredients_recipes(ingredient_id, recipe_id)
