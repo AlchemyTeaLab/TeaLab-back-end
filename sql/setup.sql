@@ -16,6 +16,7 @@ CREATE TABLE recipes (
   name TEXT NOT NULL,
   ingredient_ids BIGINT [] REFERENCES ingredients (id),
   user_id BIGINT REFERENCES users (id),
+  notes TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -28,3 +29,4 @@ CREATE TABLE ingredients (
   health_benefits TEXT [] NOT NULL,
   description TEXT
 )
+
