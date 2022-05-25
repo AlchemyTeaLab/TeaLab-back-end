@@ -34,13 +34,6 @@ CREATE TABLE ingredients_recipes (
   recipe_id BIGINT REFERENCES recipes (id)
 );
 
-
-INSERT INTO
-  users(email, password_hash, username)
-VALUES
-  ('test@email.com', 'secretPassword', 'test_username');
-
-
 INSERT INTO 
   ingredients(common_name, scientific_name, type, health_benefits, description)
 VALUES
