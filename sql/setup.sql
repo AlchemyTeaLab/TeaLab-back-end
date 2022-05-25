@@ -22,16 +22,25 @@ CREATE TABLE ingredients (
 );
 
 -- junction table for these ingredients_recipes
+CREATE TABLE ingredients_recipes (
+  ingredient_id BIGINT REFERENCES ingredients (id),
+  recipe_id BIGINT REFERENCES recipes (id)
+)
 
 CREATE TABLE recipes (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   name TEXT NOT NULL,
-  -- ingredient_ids BIGINT [] REFERENCES ingredients (id),
   user_id BIGINT REFERENCES users (id),
   notes TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+INSERT INTO
+  ingredients_recipes(ingredient_id, recipe_id)
+VALUES
+  (1, 1),
+  (2, 1),
+  (4, 2);
 
 INSERT INTO 
   ingredients(common_name, scientific_name, type, health_benefits, description)
