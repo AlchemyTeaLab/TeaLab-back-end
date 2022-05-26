@@ -114,4 +114,21 @@ describe('TeaLab-back-end ingredient route', () => {
 
     expect(res.body).toEqual(expected);
   });
+
+  it('should get a single ingredient by ID', async () => {
+    await agent
+      .post('/api/v1/users')
+      .send(admin);
+
+    await agent
+      .post('/api/v1/users/session')
+      .send(admin);
+
+    const expected = await Ingredient.getIngredientById(1);
+
+    const res = await agent
+      .get(`/api/v1/ingredients/${expected.id}`);
+
+    expect(res.body).toEqual(expected);
+  });
 });
