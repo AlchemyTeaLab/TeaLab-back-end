@@ -17,14 +17,14 @@ describe('TeaLab-back-end routes', () => {
       .post('/api/v1/users')
       .send({
         username: 'test_username',
-        email: 'test@email.com',
+        email: 'admin@tealab.com',
         password: 'secretPassword',
       });
 
     expect(res.body).toEqual({
       id: expect.any(String),
       username: 'test_username',
-      email: 'test@email.com',
+      email: 'admin@tealab.com',
     });
   });
 });
