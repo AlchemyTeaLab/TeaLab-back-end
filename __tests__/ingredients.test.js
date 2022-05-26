@@ -40,7 +40,6 @@ describe('TeaLab-back-end ingredient route', () => {
   };
   
   it('should only allow admin to POST an ingredient', async () => {
-    // await UserService.create(admin);
     await agent
       .post('/api/v1/users')
       .send(admin);
@@ -57,7 +56,10 @@ describe('TeaLab-back-end ingredient route', () => {
   });
 
   it('should not allow user to POST an ingredient', async () => {
-    await UserService.create(notAdmin);
+    await agent
+      .post('/api/v1/users')
+      .send(notAdmin);
+
     await agent
       .post('/api/v1/users/session')
       .send(notAdmin);
@@ -67,8 +69,40 @@ describe('TeaLab-back-end ingredient route', () => {
       .send(mockIngredient);
 
     expect(res.body).toEqual({ 
-      message: 'Must be admin to create an ingredient',
-      status: 404,
+      message: 'Must be admin to access an ingredient',
+      status: 403,
+    });
+  });
+
+  it('should only allow admin to UPDATE an ingredient', async () => {
+    await agent
+      .post('/api/v1/users')
+      .send(admin);
+
+    await agent
+      .post('/api/v1/users/session')
+      .send(admin);
+
+    const res = await agent
+      .patch('/api/v1/ingredients')
+      .send(mockIngredient);
+
+    expect(res.body).toEqual({ ...mockIngredient, id: expect.any(String) });
+  });
+
+  it('should not allow user to UPDATE an ingredient', async () => {
+    await UserService.create(notAdmin);
+    await agent
+      .post('/api/v1/users/session')
+      .send(notAdmin);
+
+    const res = await agent
+      .patch('/api/v1/ingredients')
+      .send(mockIngredient);
+
+    expect(res.body).toEqual({ 
+      message: 'Must be admin to access an ingredient',
+      status: 403,
     });
   });
 
