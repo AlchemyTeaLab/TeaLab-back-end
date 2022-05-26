@@ -23,6 +23,12 @@ describe('TeaLab-back-end ingredient route', () => {
     username: 'admin'
   };
 
+  const notAdmin = {
+    email: 'user@email.com',
+    password: 'wrongPassword',
+    username: 'otherUser'
+  };
+
   const mockIngredient = {
     id: 2,
     commonName: 'test ingredient name',
@@ -44,6 +50,22 @@ describe('TeaLab-back-end ingredient route', () => {
       .send(mockIngredient);
 
     expect(res.body).toEqual({ ...mockIngredient });
+  });
+
+  it('should not allow user to POST an ingredient', async () => {
+    await UserService.create(notAdmin);
+    await agent
+      .post('/api/v1/users/session')
+      .send(notAdmin);
+
+    const res = await agent
+      .post('/api/v1/ingredients')
+      .send(mockIngredient);
+
+    expect(res.body).toEqual({ 
+      message: 'Must be admin to create an ingredient',
+      status: 404,
+    });
   });
 
   it('should get a list of ingredient', async () => {
