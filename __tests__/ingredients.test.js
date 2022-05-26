@@ -23,7 +23,7 @@ describe('TeaLab-back-end ingredient route', () => {
     password: 'secretPassword',
     username: 'admin'
   };
-
+  
   const notAdmin = {
     email: 'user@email.com',
     password: 'wrongPassword',
@@ -38,6 +38,15 @@ describe('TeaLab-back-end ingredient route', () => {
     healthBenefits: ['test happiness'],
     description: 'test description'
   };
+
+  it('should get a list of ingredient', async () => {
+    const expected = await Ingredient.getAllIngredients();
+
+    const res = await request(app)
+      .get('/api/v1/ingredients');
+
+    expect(res.body).toEqual(expected);
+  });
   
   it('should only allow admin to POST an ingredient', async () => {
     await agent
@@ -113,15 +122,6 @@ describe('TeaLab-back-end ingredient route', () => {
     });
   });
 
-  it('should get a list of ingredient', async () => {
-    const expected = await Ingredient.getAllIngredients();
-
-    const res = await request(app)
-      .get('/api/v1/ingredients');
-
-    expect(res.body).toEqual(expected);
-  });
-
   it('should get a single ingredient by ID', async () => {
     await agent
       .post('/api/v1/users')
@@ -137,5 +137,42 @@ describe('TeaLab-back-end ingredient route', () => {
       .get(`/api/v1/ingredients/${expected.id}`);
 
     expect(res.body).toEqual(expected);
+  });
+
+  it.only('should only allow admin to UPDATE an ingredient', async () => {
+    await agent
+      .post('/api/v1/users')
+      .send(admin);
+
+    await agent
+      .post('/api/v1/users/session')
+      .send(admin);
+
+    const expected = await Ingredient.getIngredientById(1);
+
+    const res = await agent
+      .delete(`/api/v1/ingredients/${expected.id}`); 
+
+    expect(res.body).toEqual({ message: 'Successfully deleted ingredient' });
+  });
+
+  it('should not allow user to UPDATE an ingredient', async () => {
+    await agent
+      .post('/api/v1/users')
+      .send(notAdmin);
+
+    await agent
+      .post('/api/v1/users/session')
+      .send(notAdmin);
+  
+    const expected = await Ingredient.getIngredientById(1);
+
+    const res = await agent
+      .delete(`/api/v1/ingredients/${expected.id}`);
+
+    expect(res.body).toEqual({ 
+      message: 'Must be admin to access an ingredient',
+      status: 403,
+    });
   });
 });
