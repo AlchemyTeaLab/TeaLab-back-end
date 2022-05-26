@@ -39,7 +39,7 @@ CREATE TABLE ingredients_recipes (
 INSERT INTO
   users(email, password_hash, username)
 VALUES
-  ('test@email.com', 'secretPassword', 'test_username1');
+  ('admin@tealab.com', 'secretPassword', 'test_username1');
 
 INSERT INTO 
   ingredients(common_name, scientific_name, type, health_benefits, description)
