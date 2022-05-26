@@ -17,7 +17,7 @@ describe('TeaLab-back-end routes', () => {
 
   });
 
-  it.skip('should get a list of ingredient', async () => {
+  it('should get a list of ingredient', async () => {
     const expected = await Ingredient.getAllIngredients();
 
     const res = await request(app)
