@@ -14,7 +14,7 @@ describe('TeaLab-back-end recipe route', () => {
   });
 
   it('should get a list of recipes', async () => {
-    const expected = await Recipe.getAllRecipes();
+    // const expected = await Recipe.getAllRecipes();
     const res = await request(app).get('/api/v1/recipes');
 
     // expect(res.body).toEqual([
@@ -24,9 +24,24 @@ describe('TeaLab-back-end recipe route', () => {
     //     id: expect.any(String),
     //   },
     // ]);
-    console.log('EXPECTED', expected);
+    // console.log('EXPECTED', expected);
     // const updated = expected.map((i) => {i, createdAt: String(i.createdAt)});
-    expect(res.body).toEqual(expected);
+    expect(res.body).toEqual([
+      {
+        id: '1',
+        name: 'Jasmine Green Tea',
+        userId: '1',
+        notes: 'My go-to stress-reliever',
+        createdAt: expect.any(String),
+      },
+      {
+        id: '2',
+        name: 'Iced Lemon Tea',
+        userId: '1',
+        notes: 'Summer Favorite',
+        createdAt: expect.any(String),
+      },
+    ]);
   });
 
   it.skip('should allow authorized user to update a tea recipe', async () => {});
