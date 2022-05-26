@@ -4,7 +4,9 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Ingredient = require('../lib/models/Ingredient');
 
-describe('TeaLab-back-end routes', () => {
+
+describe('TeaLab-back-end ingredient route', () => {
+  jest.setTimeout(30000);
   beforeEach(() => {
     return setup(pool);
   });
