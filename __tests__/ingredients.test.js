@@ -5,18 +5,19 @@ const app = require('../lib/app');
 const Ingredient = require('../lib/models/Ingredient');
 const UserService = require('../lib/services/UserService');
 
-const agent = request.agent(app);
+let agent;
 
 describe('TeaLab-back-end ingredient route', () => {
   jest.setTimeout(30000);
   beforeEach(() => {
+    agent = request.agent(app);
     return setup(pool);
   });
 
   afterAll(() => {
     pool.end();
   });
-
+  
   const admin = {
     email: 'admin@tealab.com',
     password: 'secretPassword',
@@ -30,17 +31,20 @@ describe('TeaLab-back-end ingredient route', () => {
   };
 
   const mockIngredient = {
-    id: 2,
     commonName: 'test ingredient name',
     scientificName: 'test ingredient scientific name',
     image: '',
     type: 'base',
-    healthBenefits: 'test happiness',
+    healthBenefits: ['test happiness'],
     description: 'test description'
   };
-
+  
   it('should only allow admin to POST an ingredient', async () => {
-    await UserService.create(admin);
+    // await UserService.create(admin);
+    await agent
+      .post('/api/v1/users')
+      .send(admin);
+
     await agent
       .post('/api/v1/users/session')
       .send(admin);
@@ -49,7 +53,7 @@ describe('TeaLab-back-end ingredient route', () => {
       .post('/api/v1/ingredients')
       .send(mockIngredient);
 
-    expect(res.body).toEqual({ ...mockIngredient });
+    expect(res.body).toEqual({ ...mockIngredient, id: expect.any(String) });
   });
 
   it('should not allow user to POST an ingredient', async () => {
