@@ -34,7 +34,7 @@ describe('TeaLab-back-end ingredient route', () => {
     commonName: 'test ingredient name',
     scientificName: 'test ingredient scientific name',
     image: '',
-    type: 'base',
+    type: 'Base',
     healthBenefits: ['test happiness'],
     description: 'test description'
   };
@@ -82,23 +82,30 @@ describe('TeaLab-back-end ingredient route', () => {
     await agent
       .post('/api/v1/users/session')
       .send(admin);
+    
+    const expected = await Ingredient.getIngredientById(1);
 
     const res = await agent
-      .patch('/api/v1/ingredients')
-      .send(mockIngredient);
+      .patch(`/api/v1/ingredients/${expected.id}`)
+      .send({ commonName: 'Great Test Ingredient Name' });
 
-    expect(res.body).toEqual({ ...mockIngredient, id: expect.any(String) });
+    expect(res.body).toEqual({ ...expected, commonName: 'Great Test Ingredient Name' });
   });
 
   it('should not allow user to UPDATE an ingredient', async () => {
-    await UserService.create(notAdmin);
+    await agent
+      .post('/api/v1/users')
+      .send(notAdmin);
+
     await agent
       .post('/api/v1/users/session')
       .send(notAdmin);
+    
+    const expected = await Ingredient.getIngredientById(1);
 
     const res = await agent
-      .patch('/api/v1/ingredients')
-      .send(mockIngredient);
+      .patch(`/api/v1/ingredients/${expected.id}`)
+      .send({ commonName: 'Great Test Ingredient Name' });
 
     expect(res.body).toEqual({ 
       message: 'Must be admin to access an ingredient',
