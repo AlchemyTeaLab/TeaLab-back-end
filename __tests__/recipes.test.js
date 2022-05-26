@@ -3,9 +3,12 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 const Recipe = require('../lib/models/Recipe');
+const UserService = require('../lib/services/UserService');
+let agent;
 
 describe('TeaLab-back-end recipe route', () => {
   beforeEach(() => {
+    agent = request.agent(app);
     return setup(pool);
   });
 
@@ -13,10 +16,26 @@ describe('TeaLab-back-end recipe route', () => {
     pool.end();
   });
 
-  it('should get a list of recipes', async () => {
-    const res = await request(app).get('/api/v1/recipes');
+  const mockUser = {
+    email: 'user1@tealab.com',
+    password: '123456',
+    username: 'user1',
+  };
 
-    expect(res.body).toEqual([
+  const mockRecipe = {
+    name: 'Super Amazing Tea',
+    userId: '2',
+    notes: 'some notes',
+  };
+
+  // GET ALL TEA RECIPES
+  it('should allow signed in user to get a list of tea recipe', async () => {
+    const user = await UserService.create(mockUser);
+
+    await agent.post('/api/v1/users/session').send(mockUser);
+    await agent.get('/api/v1/recipes');
+
+    const expected = [
       {
         id: '1',
         name: 'Jasmine Green Tea',
@@ -31,9 +50,11 @@ describe('TeaLab-back-end recipe route', () => {
         notes: 'Summer Favorite',
         createdAt: expect.any(String),
       },
-    ]);
+    ];
+    const res = await agent.get('/api/v1/recipes');
+    expect(res.body).toEqual(expected);
   });
 
-  it.skip('should allow authorized user to update a tea recipe', async () => {});
-  it.skip('should allow authorized user to delete a tea recipe', async () => {});
+  it.skip('should allow signed in user to update a tea recipe', async () => {});
+  it.skip('should allow signed in user to delete a tea recipe', async () => {});
 });
