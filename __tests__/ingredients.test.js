@@ -139,7 +139,7 @@ describe('TeaLab-back-end ingredient route', () => {
     expect(res.body).toEqual(expected);
   });
 
-  it.only('should only allow admin to UPDATE an ingredient', async () => {
+  it('should only allow admin to UPDATE an ingredient', async () => {
     await agent
       .post('/api/v1/users')
       .send(admin);
