@@ -24,6 +24,7 @@ describe('TeaLab-back-end recipe route', () => {
   };
 
   const mockRecipe = {
+    id: '100',
     name: 'Super Amazing Tea',
     userId: '2',
     notes: 'some notes',
@@ -68,7 +69,7 @@ describe('TeaLab-back-end recipe route', () => {
     });
   });
 
-  // EDIT A TEA RECIPE BY TEA ID
+  // EDIT A TEA RECIPE BY RECIPE ID
   it('should allow signed in user to UPDATE a tea recipe', async () => {
     await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
@@ -87,5 +88,14 @@ describe('TeaLab-back-end recipe route', () => {
     });
   });
 
-  it.skip('should allow signed in user to delete a tea recipe', async () => {});
+  // DELETE A TEA RECIPE BY RECIPE ID
+  it.skip('should allow signed in user to delete a tea recipe', async () => {
+    await UserService.create(mockUser);
+    await agent.post('/api/v1/users/session').send(mockUser);
+    await agent.post('/api/v1/recipes').send(mockRecipe);
+    const res = await agent.delete(`/api/v1/recipes/${mockRecipe.id}`);
+    expect(res.body).toEqual({
+      message: 'You have successfully deleted a tea recipe',
+    });
+  });
 });
