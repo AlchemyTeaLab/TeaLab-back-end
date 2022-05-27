@@ -24,7 +24,7 @@ describe('TeaLab-back-end recipe route', () => {
   };
 
   const mockRecipe = {
-    id: '100',
+    id: '3',
     name: 'Super Amazing Tea',
     userId: '2',
     notes: 'some notes',
@@ -32,7 +32,7 @@ describe('TeaLab-back-end recipe route', () => {
 
   // GET ALL TEA RECIPES
   it('should allow signed in user to get a list of tea recipe', async () => {
-    const user = await UserService.create(mockUser);
+    await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
     const res = await agent.get('/api/v1/recipes');
     const expected = [
@@ -61,7 +61,6 @@ describe('TeaLab-back-end recipe route', () => {
     await agent.post('/api/v1/users/session').send(mockUser);
     const res = await agent.post('/api/v1/recipes').send(mockRecipe);
 
-    console.log('NEW RECIPE', res.body);
     expect(res.body).toEqual({
       id: expect.any(String),
       createdAt: expect.any(String),
@@ -74,7 +73,7 @@ describe('TeaLab-back-end recipe route', () => {
     await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
     const expected = await Recipe.getRecipeById(1);
-    console.log('RECIPE', expected);
+
     const res = await agent.patch(`/api/v1/recipes/${expected.id}`).send({
       name: 'Jasmine Honey Green Tea',
       notes: 'It took my allergies away!',
@@ -89,7 +88,7 @@ describe('TeaLab-back-end recipe route', () => {
   });
 
   // DELETE A TEA RECIPE BY RECIPE ID
-  it.skip('should allow signed in user to delete a tea recipe', async () => {
+  it('should allow signed in user to delete a tea recipe', async () => {
     await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
     await agent.post('/api/v1/recipes').send(mockRecipe);
