@@ -70,6 +70,12 @@ describe('TeaLab-back-end recipe route', () => {
     });
   });
 
-  it.skip('should allow signed in user to update a tea recipe', async () => {});
+  // EDIT A TEA RECIPE
+  it.skip('should allow signed in user to modify a tea recipe', async () => {
+    await UserService.create(mockUser);
+    await agent.post('/api/v1/users/session').send(mockUser);
+    const recipe = await Recipe.insert();
+  });
+
   it.skip('should allow signed in user to delete a tea recipe', async () => {});
 });
