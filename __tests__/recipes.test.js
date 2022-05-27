@@ -24,6 +24,7 @@ describe('TeaLab-back-end recipe route', () => {
   };
 
   const mockRecipe = {
+    id: '3',
     name: 'Super Amazing Tea',
     userId: '2',
     notes: 'some notes',
@@ -31,11 +32,9 @@ describe('TeaLab-back-end recipe route', () => {
 
   // GET ALL TEA RECIPES
   it('should allow signed in user to get a list of tea recipe', async () => {
-    const user = await UserService.create(mockUser);
-
+    await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
     const res = await agent.get('/api/v1/recipes');
-    // await agent.get('/api/v1/recipes');
     const expected = [
       {
         id: '1',
@@ -57,12 +56,11 @@ describe('TeaLab-back-end recipe route', () => {
   });
 
   // CREATE A TEA RECIPE
-  it('should allow signed in user to create a tea recipe', async () => {
+  it('should allow signed in user to CREATE a tea recipe', async () => {
     await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
     const res = await agent.post('/api/v1/recipes').send(mockRecipe);
 
-    console.log('NEW RECIPE', res.body);
     expect(res.body).toEqual({
       id: expect.any(String),
       createdAt: expect.any(String),
@@ -70,12 +68,33 @@ describe('TeaLab-back-end recipe route', () => {
     });
   });
 
-  // EDIT A TEA RECIPE
-  it.skip('should allow signed in user to modify a tea recipe', async () => {
+  // EDIT A TEA RECIPE BY RECIPE ID
+  it('should allow signed in user to UPDATE a tea recipe', async () => {
     await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
-    const recipe = await Recipe.insert();
+    const expected = await Recipe.getRecipeById(1);
+
+    const res = await agent.patch(`/api/v1/recipes/${expected.id}`).send({
+      name: 'Jasmine Honey Green Tea',
+      notes: 'It took my allergies away!',
+    });
+    expect(res.body).toEqual({
+      ...expected,
+      name: 'Jasmine Honey Green Tea',
+      userId: expect.any(String),
+      notes: 'It took my allergies away!',
+      createdAt: expect.any(String),
+    });
   });
 
-  it.skip('should allow signed in user to delete a tea recipe', async () => {});
+  // DELETE A TEA RECIPE BY RECIPE ID
+  it('should allow signed in user to delete a tea recipe', async () => {
+    await UserService.create(mockUser);
+    await agent.post('/api/v1/users/session').send(mockUser);
+    await agent.post('/api/v1/recipes').send(mockRecipe);
+    const res = await agent.delete(`/api/v1/recipes/${mockRecipe.id}`);
+    expect(res.body).toEqual({
+      message: 'You have successfully deleted a tea recipe',
+    });
+  });
 });
