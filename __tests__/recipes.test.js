@@ -32,10 +32,8 @@ describe('TeaLab-back-end recipe route', () => {
   // GET ALL TEA RECIPES
   it('should allow signed in user to get a list of tea recipe', async () => {
     const user = await UserService.create(mockUser);
-
     await agent.post('/api/v1/users/session').send(mockUser);
     const res = await agent.get('/api/v1/recipes');
-    // await agent.get('/api/v1/recipes');
     const expected = [
       {
         id: '1',
@@ -57,7 +55,7 @@ describe('TeaLab-back-end recipe route', () => {
   });
 
   // CREATE A TEA RECIPE
-  it('should allow signed in user to create a tea recipe', async () => {
+  it('should allow signed in user to CREATE a tea recipe', async () => {
     await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
     const res = await agent.post('/api/v1/recipes').send(mockRecipe);
@@ -70,11 +68,12 @@ describe('TeaLab-back-end recipe route', () => {
     });
   });
 
-  // EDIT A TEA RECIPE
-  it.skip('should allow signed in user to modify a tea recipe', async () => {
+  // EDIT A TEA RECIPE BY TEA ID
+  it.skip('should allow signed in user to UPDATE a tea recipe', async () => {
     await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
-    const recipe = await Recipe.insert();
+    const expected = await Recipe.getRecipeById(1);
+    console.log('RECIPE', expected);
   });
 
   it.skip('should allow signed in user to delete a tea recipe', async () => {});
