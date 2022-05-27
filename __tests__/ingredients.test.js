@@ -23,7 +23,7 @@ describe('TeaLab-back-end ingredient route', () => {
     password: 'secretPassword',
     username: 'admin'
   };
-
+  
   const notAdmin = {
     email: 'user@email.com',
     password: 'wrongPassword',
@@ -34,13 +34,21 @@ describe('TeaLab-back-end ingredient route', () => {
     commonName: 'test ingredient name',
     scientificName: 'test ingredient scientific name',
     image: '',
-    type: 'base',
+    type: 'Base',
     healthBenefits: ['test happiness'],
     description: 'test description'
   };
+
+  it('should get a list of ingredient', async () => {
+    const expected = await Ingredient.getAllIngredients();
+
+    const res = await request(app)
+      .get('/api/v1/ingredients');
+
+    expect(res.body).toEqual(expected);
+  });
   
   it('should only allow admin to POST an ingredient', async () => {
-    // await UserService.create(admin);
     await agent
       .post('/api/v1/users')
       .send(admin);
@@ -57,7 +65,10 @@ describe('TeaLab-back-end ingredient route', () => {
   });
 
   it('should not allow user to POST an ingredient', async () => {
-    await UserService.create(notAdmin);
+    await agent
+      .post('/api/v1/users')
+      .send(notAdmin);
+
     await agent
       .post('/api/v1/users/session')
       .send(notAdmin);
@@ -67,17 +78,101 @@ describe('TeaLab-back-end ingredient route', () => {
       .send(mockIngredient);
 
     expect(res.body).toEqual({ 
-      message: 'Must be admin to create an ingredient',
-      status: 404,
+      message: 'Must be admin to access an ingredient',
+      status: 403,
     });
   });
 
-  it('should get a list of ingredient', async () => {
-    const expected = await Ingredient.getAllIngredients();
+  it('should only allow admin to UPDATE an ingredient', async () => {
+    await agent
+      .post('/api/v1/users')
+      .send(admin);
 
-    const res = await request(app)
-      .get('/api/v1/ingredients');
+    await agent
+      .post('/api/v1/users/session')
+      .send(admin);
+    
+    const expected = await Ingredient.getIngredientById(1);
+
+    const res = await agent
+      .patch(`/api/v1/ingredients/${expected.id}`)
+      .send({ commonName: 'Great Test Ingredient Name' });
+
+    expect(res.body).toEqual({ ...expected, commonName: 'Great Test Ingredient Name' });
+  });
+
+  it('should not allow user to UPDATE an ingredient', async () => {
+    await agent
+      .post('/api/v1/users')
+      .send(notAdmin);
+
+    await agent
+      .post('/api/v1/users/session')
+      .send(notAdmin);
+    
+    const expected = await Ingredient.getIngredientById(1);
+
+    const res = await agent
+      .patch(`/api/v1/ingredients/${expected.id}`)
+      .send({ commonName: 'Great Test Ingredient Name' });
+
+    expect(res.body).toEqual({ 
+      message: 'Must be admin to access an ingredient',
+      status: 403,
+    });
+  });
+
+  it('should get a single ingredient by ID', async () => {
+    await agent
+      .post('/api/v1/users')
+      .send(admin);
+
+    await agent
+      .post('/api/v1/users/session')
+      .send(admin);
+
+    const expected = await Ingredient.getIngredientById(1);
+
+    const res = await agent
+      .get(`/api/v1/ingredients/${expected.id}`);
 
     expect(res.body).toEqual(expected);
+  });
+
+  it('should only allow admin to UPDATE an ingredient', async () => {
+    await agent
+      .post('/api/v1/users')
+      .send(admin);
+
+    await agent
+      .post('/api/v1/users/session')
+      .send(admin);
+
+    const expected = await Ingredient.getIngredientById(1);
+
+    const res = await agent
+      .delete(`/api/v1/ingredients/${expected.id}`); 
+
+    expect(res.body).toEqual({ message: 'Successfully deleted ingredient' });
+  });
+
+  it('should not allow user to UPDATE an ingredient', async () => {
+    await agent
+      .post('/api/v1/users')
+      .send(notAdmin);
+
+    await agent
+      .post('/api/v1/users/session')
+      .send(notAdmin);
+  
+    const expected = await Ingredient.getIngredientById(1);
+
+    const res = await agent
+      .delete(`/api/v1/ingredients/${expected.id}`);
+
+    expect(res.body).toEqual({ 
+      message: 'Must be admin to access an ingredient',
+      status: 403,
+    });
   });
 });
