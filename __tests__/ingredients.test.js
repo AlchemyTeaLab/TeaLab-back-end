@@ -3,7 +3,6 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 const Ingredient = require('../lib/models/Ingredient');
-const UserService = require('../lib/services/UserService');
 
 let agent;
 
