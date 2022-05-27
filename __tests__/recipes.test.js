@@ -69,11 +69,22 @@ describe('TeaLab-back-end recipe route', () => {
   });
 
   // EDIT A TEA RECIPE BY TEA ID
-  it.skip('should allow signed in user to UPDATE a tea recipe', async () => {
+  it('should allow signed in user to UPDATE a tea recipe', async () => {
     await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
     const expected = await Recipe.getRecipeById(1);
     console.log('RECIPE', expected);
+    const res = await agent.patch(`/api/v1/recipes/${expected.id}`).send({
+      name: 'Jasmine Honey Green Tea',
+      notes: 'It took my allergies away!',
+    });
+    expect(res.body).toEqual({
+      ...expected,
+      name: 'Jasmine Honey Green Tea',
+      userId: expect.any(String),
+      notes: 'It took my allergies away!',
+      createdAt: expect.any(String),
+    });
   });
 
   it.skip('should allow signed in user to delete a tea recipe', async () => {});
