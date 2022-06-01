@@ -17,9 +17,9 @@ jobs:
     - run: npm test
       env:
         CI: true
-        DATABASE_URL: postgres://alchemy:alchemy@postgres:5432/alchemy
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        COOKIE_NAME: ${{ secrets.COOKIE_NAME }}
-        SALT_ROUNDS: ${{ secrets.SALT_ROUNDS }}
-        NODE_ENV: ${{ secrets.development }}
-        CLOUDINARY_URL: ${{ secrets.cloudinary://tealab:Kp0RQ6wYoniodjM_OJy19Y75Ht0@dzorlv6mm }}
+          DATABASE_URL: postgres://alchemy:alchemy@postgres:5432/alchemy
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          COOKIE_NAME: ${{ secrets.COOKIE_NAME }}
+          SALT_ROUNDS: ${{ secrets.SALT_ROUNDS }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
