@@ -56,7 +56,7 @@ describe('TeaLab-back-end recipe route', () => {
   });
 
   // CREATE A TEA RECIPE
-  it('should allow signed in user to CREATE a tea recipe', async () => {
+  it('should allow signed in user to create a tea recipe', async () => {
     await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
     const res = await agent.post('/api/v1/recipes').send(mockRecipe);
@@ -69,7 +69,7 @@ describe('TeaLab-back-end recipe route', () => {
   });
 
   // EDIT A TEA RECIPE BY RECIPE ID
-  it('should allow signed in user to UPDATE a tea recipe', async () => {
+  it('should allow signed in user to update a tea recipe', async () => {
     await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
     const expected = await Recipe.getRecipeById(1);
@@ -96,5 +96,13 @@ describe('TeaLab-back-end recipe route', () => {
     expect(res.body).toEqual({
       message: 'You have successfully deleted a tea recipe',
     });
+  });
+
+  // GET NUMBER OF RECIPES
+  it('should allow signed in user to get the total number of recipes stored in database', async () => {
+    await UserService.create(mockUser);
+    await agent.post('/api/v1/users/session').send(mockUser);
+    const res = await request(app).get('/api/v1/recipes/count');
+    expect(Number(res.text)).toEqual(2);
   });
 });
