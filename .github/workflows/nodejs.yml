@@ -12,11 +12,11 @@ jobs:
           POSTGRES_USER: alchemy
           POSTGRES_PASSWORD: alchemy
     steps:
-      - uses: actions/checkout@v2
-      - run: npm ci
-      - run: npm test
-        env:
-          CI: true
+    - uses: actions/checkout@v2
+    - run: npm ci
+    - run: npm test
+      env:
+        CI: true
           DATABASE_URL: postgres://alchemy:alchemy@postgres:5432/alchemy
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           COOKIE_NAME: ${{ secrets.COOKIE_NAME }}
