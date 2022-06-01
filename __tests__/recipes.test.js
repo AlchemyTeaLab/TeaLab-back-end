@@ -59,8 +59,9 @@ describe('TeaLab-back-end recipe route', () => {
   it('should allow signed in user to create a tea recipe', async () => {
     await UserService.create(mockUser);
     await agent.post('/api/v1/users/session').send(mockUser);
-    const res = await agent.post('/api/v1/recipes').send(mockRecipe);
-
+    const res = await agent.post('/api/v1/recipes').send({ recipe: mockRecipe, recipeItems: ['1', '2', '4'] });
+    console.log('res', res.body);
+    console.log('mockRecipe', mockRecipe);
     expect(res.body).toEqual({
       id: expect.any(String),
       createdAt: expect.any(String),
