@@ -1,11 +1,9 @@
+![Logo](https://res.cloudinary.com/tealab/image/upload/v1654017908/vector_assets/full_tea_set.png)
+
 
 # TeaLab
 
-
 A brief description of what this project does and who it's for
-
-
-![Logo](https://res.cloudinary.com/tealab/image/upload/v1654017908/vector_assets/full_tea_set.png)
 
 
 ## Team Members
