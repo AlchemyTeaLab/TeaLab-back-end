@@ -34,6 +34,7 @@ CREATE TABLE recipes (
 CREATE TABLE ingredients_recipes (
   ingredient_id BIGINT REFERENCES ingredients (id),
   recipe_id BIGINT REFERENCES recipes (id)
+  ON DELETE CASCADE
 );
 
 INSERT INTO
