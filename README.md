@@ -3,7 +3,7 @@
 
 # TeaLab
 
-A platform to create and collect teas, that makes learning about tea fun!
+A whimsical platform to create and collect teas, that makes learning about tea fun!
 
 
 ## Team Members
