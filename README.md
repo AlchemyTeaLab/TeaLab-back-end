@@ -3,7 +3,7 @@
 
 # TeaLab
 
-A brief description of what this project does and who it's for
+ A platform to create and collect teas that makes learning about tea fun.
 
 
 ## Team Members
