@@ -2,7 +2,7 @@
 
 # TeaLab
 
-<TeaLab /> is a full-stack browser-based application built using ReactJS, Cloudinary, CSS, PostgreSQL and Express. Users are able to create and collect teas, that makes learning about tea fun! Users will be able to save, edit and delete their tea recipes on a recipe profile page.
+<TeaLab /> is a whimsical full-stack browser-based application built using ReactJS, Cloudinary, CSS, PostgreSQL and Express. Users are able to create and collect teas, that makes learning about tea fun! Users will be able to save, edit and delete their tea recipes on a recipe profile page.
 
 [Deploy Site](https://tea-lab.netlify.app/)
 [Miro Board](https://miro.com/app/board/uXjVOy8UhI0=/?share_link_id=623813889366)
