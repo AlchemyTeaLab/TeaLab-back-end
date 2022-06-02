@@ -21,5 +21,4 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           COOKIE_NAME: ${{ secrets.COOKIE_NAME }}
           SALT_ROUNDS: ${{ secrets.SALT_ROUNDS }}
-          NODE_ENV: ${{ secrets.NODE_ENV }}
           CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
